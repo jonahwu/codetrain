@@ -3,9 +3,10 @@ import spacy
 from spacy.training import Example
 from spacy.util import minibatch
 from spacy.util import compounding
+import pickle
 
-LABEL = 'ANIMAL'
-
+LABEL = 'emotion'
+"""
 TRAIN_DATA = [
     ("马有很长的尾巴", {'entities': [(0, 1, LABEL)]}),
     ("Do they bite?", {'entities': []}),
@@ -15,6 +16,24 @@ TRAIN_DATA = [
     ("那邊有馬跟狗", {'entities': [(3, 4, LABEL), (5,6,LABEL)]}),
     ("馬?", {'entities': [(0, 1, LABEL)]})
 ]
+"""
+"""
+TRAIN_DATA = [
+    ("李登辉的最后一本书", {'entities': [(0, 3, LABEL)]}),
+    ("Do they bite?", {'entities': []}),
+    ("美国同意台湾总统李登辉6月「私人访问」康乃尔大学", {'entities': [(8, 11, LABEL)]}),
+    ("李登辉把民主自由留给台湾", {'entities': [(0, 3, LABEL)]}),
+    ("李登辉执政十二年", {'entities': [(0, 3, LABEL)]}),
+    ("李登辉预备前往康乃尔大学攻读农业经济博士", {'entities': [(0, 3, LABEL)]}),
+    ("李登辉?", {'entities': [(0, 3, LABEL)]})
+]
+"""
+
+with open ('./formating/train', 'rb') as fp:
+    TRAIN_DATA = pickle.load(fp)
+print(TRAIN_DATA)
+
+
 #nlp = spacy.load('en_core_web_sm')  # load existing spaCy model
 #ner = nlp.get_pipe('ner')
 nlp = spacy.blank("zh")
@@ -29,6 +48,7 @@ optimizer = nlp.begin_training()
 # get names of other pipes to disable them during training
 #other_pipes = [pipe for pipe in nlp.pipe_names if pipe != "ner"]
 iternum=22
+#iternum=60
 for itn in range(iternum):
     #random.shuffle(TRAIN_DATA)
     losses = {}
@@ -45,6 +65,7 @@ for itn in range(iternum):
     print(losses)
 # test the trained model # add some dummy sentences with many NERs
 output_dir='./zhtrainanimal.train'
+#nlp.tokenizer = 'jieba'
 nlp.to_disk(output_dir)
 print("Saved model to", output_dir)
 
@@ -64,3 +85,20 @@ print("Entities in '%s'" % test_text)
 for ent in doc.ents:
     print(ent.label_, " -- ", ent.text)
 
+test_text = '李登辉的最后一本书'
+doc = nlp(test_text)
+print("Entities in '%s'" % test_text)
+for ent in doc.ents:
+    print(ent.label_, " -- ", ent.text)
+
+test_text = '李子強的最后一本书'
+doc = nlp(test_text)
+print("Entities in '%s'" % test_text)
+for ent in doc.ents:
+    print(ent.label_, " -- ", ent.text)
+
+test_text = '李子强明天要去上课'
+doc = nlp(test_text)
+print("Entities in '%s'" % test_text)
+for ent in doc.ents:
+    print(ent.label_, " -- ", ent.text)

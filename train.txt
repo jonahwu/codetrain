@@ -1,0 +1,7 @@
+'马有很长的尾巴', {'entities': [(0, 1, 'ANIMAL')]}
+'Do they bite?', {'entities': []}
+'马爱吃草', {'entities': [(0, 1, 'ANIMAL')]}
+'马比狗还大只', {'entities': [(0, 1, 'ANIMAL')]}
+'那些奔跑的动物就是马', {'entities': [(9, 10, 'ANIMAL')]}
+'那邊有馬跟狗', {'entities': [(3, 4, 'ANIMAL'), (5, 6, 'ANIMAL')]}
+'馬?', {'entities': [(0, 1, 'ANIMAL')]}
